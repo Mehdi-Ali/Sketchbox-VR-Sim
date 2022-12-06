@@ -23,11 +23,5 @@ public class HMDInfoManager : MonoBehaviour
         {
             Debug.Log(loadedDeviceName + "Connected");
         }
-
-    }
-
-    private void Update()
-    {
-        
     }
 }
