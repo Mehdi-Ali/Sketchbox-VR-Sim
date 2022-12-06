@@ -8,7 +8,6 @@ public class TeleportController : MonoBehaviour
 {
     [SerializeField] private ActionBasedController _rightController;
     [SerializeField] private  ActionBasedController _leftController;
-    [SerializeField] private  InputHelpers.Button _teleportButton;
     [SerializeField] private  XRDeviceSimulator _controls;
 
     private XRInteractorLineVisual _leftRay ;
@@ -16,8 +15,9 @@ public class TeleportController : MonoBehaviour
 
     private XRInteractorLineVisual _rightRay ; 
     private GameObject _rightReticle;
-
     private bool _isGripActive;
+
+
     private void Awake()
     {
         SubscriptingToInputManager();
@@ -67,9 +67,15 @@ public class TeleportController : MonoBehaviour
         action.started += (InputAction.CallbackContext cntx) => { _leftRay.enabled = true; ProcessesReticle(true, 2);};
         action.canceled += (InputAction.CallbackContext cntx) => { _leftRay.enabled = false; ProcessesReticle(false, 2);};
 
+        action = _controls.toggleManipulateLeftAction.action ;
+        action.started += (InputAction.CallbackContext cntx) => { _leftRay.enabled = ! _leftRay.enabled ; ProcessesReticle(_leftRay.enabled, 2);};
+
         action = _controls.manipulateRightAction.action ;
         action.started += (InputAction.CallbackContext cntx) => { _rightRay.enabled = true; ProcessesReticle(true, 1);};
         action.canceled += (InputAction.CallbackContext cntx) => { _rightRay.enabled = false; ProcessesReticle(false, 1);};
+
+        action = _controls.toggleManipulateRightAction.action ;
+        action.started += (InputAction.CallbackContext cntx) => { _rightRay.enabled = ! _rightRay.enabled ; ProcessesReticle(_rightRay.enabled, 2);};
 
         action = _controls.gripAction.action ;
         action.started += (InputAction.CallbackContext cntx) => { _isGripActive = true;};

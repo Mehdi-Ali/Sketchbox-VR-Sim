@@ -107,10 +107,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066692d7a4404634bbba253c6679af39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rightController: {fileID: 0}
-  _leftController: {fileID: 0}
+  _rightController: {fileID: 49980188107755652}
+  _leftController: {fileID: 49980187287901868}
   _teleportButton: 3
-  _activationThreshold: 0.1
+  _controls: {fileID: 0}
 --- !u!1 &49980186781389589
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,7 +579,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LineWidth: 0.02
   m_OverrideInteractorLineLength: 1
-  m_LineLength: 10
+  m_LineLength: 16
   m_WidthCurve:
     serializedVersion: 2
     m_Curve:
@@ -1119,7 +1119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LineWidth: 0.02
   m_OverrideInteractorLineLength: 1
-  m_LineLength: 10
+  m_LineLength: 16
   m_WidthCurve:
     serializedVersion: 2
     m_Curve:
