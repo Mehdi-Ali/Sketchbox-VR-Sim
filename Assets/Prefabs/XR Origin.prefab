@@ -109,7 +109,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rightController: {fileID: 49980188107755652}
   _leftController: {fileID: 49980187287901868}
-  _teleportButton: 3
   _controls: {fileID: 0}
 --- !u!1 &49980186781389589
 GameObject:

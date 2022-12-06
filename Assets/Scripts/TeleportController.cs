@@ -1,10 +1,9 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation;
 
-public class TeleportController : MonoBehaviour
+public class TeleportController : MonoBehaviour // move stuff to a general control script.
 {
     [SerializeField] private ActionBasedController _rightController;
     [SerializeField] private  ActionBasedController _leftController;
@@ -15,7 +14,12 @@ public class TeleportController : MonoBehaviour
 
     private XRInteractorLineVisual _rightRay ; 
     private GameObject _rightReticle;
+
     private bool _isGripActive;
+    private bool _isRightHandActive;
+    private bool _isLeftHandActive;
+
+    private enum _hand {Right, Left}; 
 
 
     private void Awake()
@@ -40,23 +44,23 @@ public class TeleportController : MonoBehaviour
         _rightRay.enabled = false ;
     }
 
-    private void ProcessesReticle(bool isHandActive, int index)
+    private void ProcessesReticle( _hand hand)
     {
         if (!_isGripActive)
         {
             _rightReticle.SetActive(false);
             _leftReticle.SetActive(false);
         }
-        else if (isHandActive && index == 1) 
+        if (hand == _hand.Right) 
         {
-            _rightReticle.SetActive(true);
-            _leftReticle.SetActive(false);
+            _rightReticle.SetActive(_isRightHandActive);
+            _rightRay.enabled = _isRightHandActive;
         }
 
-         else if (index == 2) 
+        if (hand == _hand.Left) 
         {
-            _leftReticle.SetActive(true);
-            _rightReticle.SetActive(false);
+            _leftReticle.SetActive(_isLeftHandActive);
+            _leftRay.enabled = _isLeftHandActive;
         }
     }
 
@@ -64,18 +68,18 @@ public class TeleportController : MonoBehaviour
     {
 
         var action = _controls.manipulateLeftAction.action ;
-        action.started += (InputAction.CallbackContext cntx) => { _leftRay.enabled = true; ProcessesReticle(true, 2);};
-        action.canceled += (InputAction.CallbackContext cntx) => { _leftRay.enabled = false; ProcessesReticle(false, 2);};
+        action.started += (InputAction.CallbackContext cntx) => { _isLeftHandActive = true; ProcessesReticle(_hand.Left);};
+        action.canceled += (InputAction.CallbackContext cntx) => { _isLeftHandActive = false; ProcessesReticle(_hand.Left);};
 
         action = _controls.toggleManipulateLeftAction.action ;
-        action.started += (InputAction.CallbackContext cntx) => { _leftRay.enabled = ! _leftRay.enabled ; ProcessesReticle(_leftRay.enabled, 2);};
+        action.started += (InputAction.CallbackContext cntx) => { _isLeftHandActive = ! _isLeftHandActive ; ProcessesReticle(_hand.Left);};
 
         action = _controls.manipulateRightAction.action ;
-        action.started += (InputAction.CallbackContext cntx) => { _rightRay.enabled = true; ProcessesReticle(true, 1);};
-        action.canceled += (InputAction.CallbackContext cntx) => { _rightRay.enabled = false; ProcessesReticle(false, 1);};
+        action.started += (InputAction.CallbackContext cntx) => { _isRightHandActive = true; ProcessesReticle(_hand.Right);};
+        action.canceled += (InputAction.CallbackContext cntx) => { _isRightHandActive = false; ProcessesReticle(_hand.Right);};
 
         action = _controls.toggleManipulateRightAction.action ;
-        action.started += (InputAction.CallbackContext cntx) => { _rightRay.enabled = ! _rightRay.enabled ; ProcessesReticle(_rightRay.enabled, 2);};
+        action.started += (InputAction.CallbackContext cntx) => { _isRightHandActive = ! _isRightHandActive ; ProcessesReticle(_hand.Right);};
 
         action = _controls.gripAction.action ;
         action.started += (InputAction.CallbackContext cntx) => { _isGripActive = true;};

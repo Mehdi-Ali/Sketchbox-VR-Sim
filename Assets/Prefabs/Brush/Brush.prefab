@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2a667f2d5877ad4889b6bcd17807f2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _realtime: {fileID: 0}
   _brushStrokePrefab: {fileID: 114499251600465828, guid: 749d541d662db9f4fa312e0e4fb6cef1,
     type: 3}
-  _hand: 1
+  _hand: {fileID: 0}
   triggerPressed: 0
   _controls: {fileID: 0}

@@ -1,29 +1,16 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Normal.Realtime;
+using Normal.Realtime.Serialization;
 
-public class BrushStroke : MonoBehaviour 
+public class BrushStroke : RealtimeComponent<BrushStrokeModel>
 {
     [SerializeField]
     private BrushStrokeMesh _mesh = null;
 
-    // Ribbon State
-    struct RibbonPoint
-    {
-        public Vector3    position;
-        public Quaternion rotation;
-    }
-
-    private List<RibbonPoint> _ribbonPoints = new List<RibbonPoint>();
-
-    private Vector3    _brushTipPosition;
-    private Quaternion _brushTipRotation;
-    private bool       _brushStrokeFinalized;
-
-    // Smoothing
     private Vector3    _ribbonEndPosition;
     private Quaternion _ribbonEndRotation = Quaternion.identity;
 
-    // Mesh
     private Vector3    _previousRibbonPointPosition;
     private Quaternion _previousRibbonPointRotation = Quaternion.identity;
 
@@ -36,8 +23,8 @@ public class BrushStroke : MonoBehaviour
 
     public void BeginBrushStrokeWithBrushTipPoint(Vector3 position, Quaternion rotation)
     {
-        _brushTipPosition = position;
-        _brushTipRotation = rotation;
+        model.brushTipPosition = position;
+        model.brushTipRotation = rotation;
 
         _ribbonEndPosition = position;
         _ribbonEndRotation = rotation;
@@ -45,20 +32,44 @@ public class BrushStroke : MonoBehaviour
     }
 
     public void MoveBrushTipToPoint(Vector3 position, Quaternion rotation) {
-        _brushTipPosition = position;
-        _brushTipRotation = rotation;
+        model.brushTipPosition = position;
+        model.brushTipRotation = rotation;
     }
 
     public void EndBrushStrokeWithBrushTipPoint(Vector3 position, Quaternion rotation) 
     {
         AddRibbonPoint(position, rotation);
-        _brushStrokeFinalized = true;
+        model.brushStrokeFinalized = true;
     }
 
+    protected override void OnRealtimeModelReplaced(BrushStrokeModel previousModel, BrushStrokeModel currentModel) 
+    {
+        _mesh.ClearRibbon();
+
+        if (previousModel != null) 
+            previousModel.ribbonPoints.modelAdded -= RibbonPointAdded;
+        
+        if (currentModel != null)
+        {
+            foreach (RibbonPointModel ribbonPoint in currentModel.ribbonPoints)
+                _mesh.InsertRibbonPoint(ribbonPoint.position, ribbonPoint.rotation);
+
+            _ribbonEndPosition = model.brushTipPosition;
+            _ribbonEndRotation = model.brushTipRotation;
+            _mesh.UpdateLastRibbonPoint(model.brushTipPosition, model.brushTipRotation);
+
+            _mesh.skipLastRibbonPoint = model.brushStrokeFinalized;
+            currentModel.ribbonPoints.modelAdded += RibbonPointAdded;
+        } 
+
+    }
 
     private void AddRibbonPointIfNeeded() 
     {
-        if (_brushStrokeFinalized)
+        if (!realtimeView.isOwnedLocallySelf)
+            return;
+
+        if (model.brushStrokeFinalized)
             return;
 
         if (Vector3.Distance(_ribbonEndPosition, _previousRibbonPointPosition) >= 0.01f ||
@@ -73,24 +84,27 @@ public class BrushStroke : MonoBehaviour
 
     private void AddRibbonPoint(Vector3 position, Quaternion rotation)
     {
-        RibbonPoint ribbonPoint = new RibbonPoint();
+        RibbonPointModel ribbonPoint = new RibbonPointModel();
         ribbonPoint.position = position;
         ribbonPoint.rotation = rotation;
-        _ribbonPoints.Add(ribbonPoint);
+        model.ribbonPoints.Add(ribbonPoint);
+    }
 
-        _mesh.InsertRibbonPoint(position, rotation);
+    private void RibbonPointAdded(RealtimeArray<RibbonPointModel> ribbonPoints, RibbonPointModel ribbonPoint, bool remote)
+    {
+        _mesh.InsertRibbonPoint(ribbonPoint.position, ribbonPoint.rotation);
     }
 
     private void AnimateLastRibbonPointTowardsBrushTipPosition()
     {
-        if (_brushStrokeFinalized) 
+        if (model.brushStrokeFinalized) 
         {
             _mesh.skipLastRibbonPoint = true;
             return;
         }
 
-        Vector3    brushTipPosition = _brushTipPosition;
-        Quaternion brushTipRotation = _brushTipRotation;
+        Vector3    brushTipPosition = model.brushTipPosition;
+        Quaternion brushTipRotation = model.brushTipRotation;
 
         if (Vector3.Distance(_ribbonEndPosition, brushTipPosition) <= 0.0001f &&
             Quaternion.Angle(_ribbonEndRotation, brushTipRotation) <= 0.01f)

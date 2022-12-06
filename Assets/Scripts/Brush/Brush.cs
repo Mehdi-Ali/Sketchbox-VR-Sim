@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR;
-using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation;
+using Normal.Realtime;
+using static Normal.Realtime.Realtime;
 
 public class Brush : MonoBehaviour 
 {
+    [SerializeField] private Realtime _realtime;
     [SerializeField] private BrushStroke _brushStrokePrefab = null;
 
     [SerializeField] private ActionBasedController _hand = null;
@@ -36,12 +36,17 @@ public class Brush : MonoBehaviour
 
     private void Update() 
     {
+         if (!_realtime.connected)
+            return;
 
         UpdatePose(_hand, ref _handPosition, ref _handRotation);
 
         if (triggerPressed && _activeBrushStroke == null)
         {
-            _activeBrushStroke = Instantiate(_brushStrokePrefab);
+            // TODO Fix this.   
+            GameObject brushStrokeInstance = Realtime.Instantiate(_brushStrokePrefab.name, ownedByClient: true, useInstance: _realtime);
+            
+            _activeBrushStroke = brushStrokeInstance.GetComponent<BrushStroke>();
             _activeBrushStroke.BeginBrushStrokeWithBrushTipPoint(_handPosition, _handRotation);
         }
 
