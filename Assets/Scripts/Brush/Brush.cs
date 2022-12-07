@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation;
 using Normal.Realtime;
-using static Normal.Realtime.Realtime;
 
 public class Brush : MonoBehaviour 
 {

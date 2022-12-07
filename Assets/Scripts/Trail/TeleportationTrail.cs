@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using Normal.Realtime;
 using UnityEngine;
 
 public class TeleportationTrail : MonoBehaviour
 {
+    [SerializeField] private Realtime _realtime;
+    [SerializeField] private DrawCurve _curve;
     [SerializeField] private TeleportController _tpController;
     private LineRenderer _line;
     private Vector3 _startingPoint;
@@ -16,20 +17,13 @@ public class TeleportationTrail : MonoBehaviour
     }
     public void DrawTrail(Vector3 endingPoint)
     {
-        _line.enabled = true;
-
-        _line.SetPosition(0, _startingPoint);
-        _line.SetPosition(1, endingPoint);
+        GameObject curveInstance = Realtime.Instantiate(_curve.name, ownedByClient: true, useInstance: _realtime);
+        curveInstance.GetComponent<DrawCurve>().Initiate(_startingPoint, endingPoint);
 
         _startingPoint = endingPoint;
-
-        Invoke(nameof(DeleteTrail), 5f);
     }
 
-    private void DeleteTrail()
-    {
-        _line.enabled = false;
-    }
+
 
 
     
