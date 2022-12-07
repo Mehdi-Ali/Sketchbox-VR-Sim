@@ -5,15 +5,14 @@ public class TeleportationTrail : MonoBehaviour
 {
     [SerializeField] private Realtime _realtime;
     [SerializeField] private DrawCurve _curve;
-    [SerializeField] private TeleportController _tpController;
+
     private LineRenderer _line;
-    private Vector3 _startingPoint;
+    private Vector3 _startingPoint = Vector3.zero;
 
     private void Awake()
     {
         _line = GetComponent<LineRenderer>();
         _line.positionCount = 2;
-        _startingPoint = _tpController.transform.position;
     }
     public void DrawTrail(Vector3 endingPoint)
     {
