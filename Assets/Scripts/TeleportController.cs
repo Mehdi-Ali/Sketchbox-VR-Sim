@@ -62,11 +62,12 @@ public class TeleportController : MonoBehaviour // move stuff to a general contr
             _leftReticle.SetActive(_isLeftHandActive);
             _leftRay.enabled = _isLeftHandActive;
         }
+
     }
 
     private void SubscriptingToInputManager()
     {
-
+        // could be better if done in the editor by dropping and dragging scriptableObjects of the actions;
         var action = _controls.manipulateLeftAction.action ;
         action.started += (InputAction.CallbackContext cntx) => { _isLeftHandActive = true; ProcessesReticle(_hand.Left);};
         action.canceled += (InputAction.CallbackContext cntx) => { _isLeftHandActive = false; ProcessesReticle(_hand.Left);};
