@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95a97ac0f8566e846b7089b6fc649052, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _brushStrokeWidth: 0.05
+  _brushStrokeWidth: 0.01
 --- !u!1 &1196413553089462
 GameObject:
   m_ObjectHideFlags: 0
