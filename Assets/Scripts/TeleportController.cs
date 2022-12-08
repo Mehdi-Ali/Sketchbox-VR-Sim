@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation;
 
-public class TeleportController : MonoBehaviour // move stuff to a general control script.
+public class TeleportController : MonoBehaviour // Rename to general control script.
 {
     [SerializeField] private ActionBasedController _rightController;
     [SerializeField] private  ActionBasedController _leftController;
@@ -65,6 +65,12 @@ public class TeleportController : MonoBehaviour // move stuff to a general contr
 
     }
 
+    private void OnDrawing(bool status)
+    {
+        _rightReticle.SetActive(!status);
+        _rightRay.enabled = !status;
+    }
+
     private void SubscriptingToInputManager()
     {
         // could be better if done in the editor by dropping and dragging scriptableObjects of the actions;
@@ -85,5 +91,9 @@ public class TeleportController : MonoBehaviour // move stuff to a general contr
         action = _controls.gripAction.action ;
         action.started += (InputAction.CallbackContext cntx) => { _isGripActive = true;};
         action.canceled += (InputAction.CallbackContext cntx) => { _isGripActive = false;};
+
+        action = _controls.triggerAction.action ;
+        action.started += (InputAction.CallbackContext cntx) => { OnDrawing(true);};
+        action.canceled += (InputAction.CallbackContext cntx) => {ProcessesReticle(_hand.Right);};
     }
 }
