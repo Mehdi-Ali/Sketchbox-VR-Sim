@@ -16,9 +16,6 @@ GameObject:
   - component: {fileID: 6329323061133936982}
   - component: {fileID: 1637580319}
   - component: {fileID: 1637580318}
-  - component: {fileID: 2064901200}
-  - component: {fileID: 2064901201}
-  - component: {fileID: 2064901202}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -144,57 +141,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2064901200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 49980186653717712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2b65be82061bbc41ad17c956b2a4538, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _player: {fileID: 49980186653717714}
---- !u!114 &2064901201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 49980186653717712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -363599832, guid: c424820a8880b8845bda10ec0b41507e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _realtime: {fileID: 0}
-  _sceneViewUUID: 
-  _viewUUID: 
-  _sceneViewPreventOwnershipTakeover: 0
-  _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _sceneViewDestroyWhenOwnerOrLastClientLeavesMigrated: 1
-  _sceneViewDestroyWhenLastClientLeaves: 1
-  _components:
-  - componentID: 1
-    component: {fileID: 2064901200}
-  _childViews: []
---- !u!114 &2064901202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 49980186653717712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c131569319ea4f44baedd53464c3df49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gatherEvent: {fileID: 2064901200}
-  trigger: 0
-  _idInstructor: 0
 --- !u!1 &49980186781389589
 GameObject:
   m_ObjectHideFlags: 0
