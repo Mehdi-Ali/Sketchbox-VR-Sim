@@ -8,6 +8,7 @@ public class PlayersManager : MonoBehaviour
     private PlayersManagerSync _playerManagerSync;
     private RealtimeAvatarManager _realtimeManager;
     private XROrigin _xROrigin;
+    private Camera _camera;
     private uint _localPlayerId;
 
     public bool TriggerMeeting;
@@ -22,6 +23,7 @@ public class PlayersManager : MonoBehaviour
         _playerManagerSync = GetComponent<PlayersManagerSync>();
         _realtimeManager = FindObjectOfType<RealtimeAvatarManager>();
         _xROrigin = FindObjectOfType<XROrigin>();
+        _camera = _xROrigin.GetComponentInChildren<Camera>();
 
         _realtimeManager.avatarCreated += AvatarCreated;
         _realtimeManager.avatarDestroyed += AvatarDestroyed;
@@ -67,13 +69,17 @@ public class PlayersManager : MonoBehaviour
     private void OmMeetingStart()
     {
         var xROTrans = _xROrigin.transform;
+        Vector3 LookAtPosition = default ; 
         TriggerMeeting = false ;
 
         xROTrans.position = _playerManagerSync.GetPosition(_localPlayerId);
+        
         if (_playerManagerSync.IfIsInstructor(_localPlayerId))
-            xROTrans.LookAt(_table.position);
+            LookAtPosition = _table.position;
         else
-            xROTrans.LookAt(_playerManagerSync.GetInstructorPosition());
+            LookAtPosition = _playerManagerSync.GetInstructorPosition();
 
+        _camera.transform.LookAt(LookAtPosition);
+        xROTrans.LookAt(LookAtPosition);
     }
 }

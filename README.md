@@ -19,9 +19,12 @@ There are also some technical aspects that I would optimize, like the integratio
 
 
 Functionalities:
+
 • Annotation ability.
-• Teleport and trail functionality
-• Gather Functionality
+
+• Teleport and trail functionality.
+
+• Gather Functionality.
 
 
 --------------------------
