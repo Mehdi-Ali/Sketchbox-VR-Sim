@@ -76,10 +76,11 @@ public class PlayersManager : MonoBehaviour
         
         if (_playerManagerSync.IfIsInstructor(_localPlayerId))
             LookAtPosition = _table.position;
+
         else
             LookAtPosition = _playerManagerSync.GetInstructorPosition();
 
-        _camera.transform.LookAt(LookAtPosition);
         xROTrans.LookAt(LookAtPosition);
+        _camera.transform.LookAt(LookAtPosition);
     }
 }
