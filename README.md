@@ -44,3 +44,7 @@ Functionalities:
 - The first one to join the room is considered the Gatherer.
 - If the instructor interacts with the box in the middle (Activate either hand and aim the casting ray, once the Reticle is visible you can click G (Grip) to interact) he will call a meeting and gather him and all other connected clients (only set 6+1 places) looking at him and him at them.
 
+
+--------------------------
+
+Builds: https://drive.google.com/drive/folders/1qHVmuoEjzHMCrAbokKaXxpZ_sk4Wgky9?usp=share_link
