@@ -49,19 +49,18 @@ public class PlayersManager : MonoBehaviour
 
     private void Update()
     {
-        if (TriggerMeeting && _playerManagerSync.IfIsInstructor(_localPlayerId))
-            StartMeeting();
-
         if (!_isConfected)
             return;
 
+        // should be driven from the OnChange IsOnMeeting Event
         if (_playerManagerSync.MeetingStatus(_localPlayerId))
                 OmMeetingStart();
     }
 
-    private void StartMeeting()
+    public void StartMeeting()
     {
-        _playerManagerSync.StartMeeting();
+        if (_playerManagerSync.IfIsInstructor(_localPlayerId))
+            _playerManagerSync.StartMeeting();
     }
 
 
